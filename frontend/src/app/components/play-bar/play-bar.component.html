@@ -1,0 +1,31 @@
+<div class="ss">
+  <div class="wrapper">
+    <div class="icon-wrapper">
+      <fa-icon [icon]="faBackwardStep" (click)="previousSong()" />
+      <fa-icon [icon]="faForwardStep" (click)="nextSong()"/>
+    </div>
+
+    <div class="pause-wrapper" (mouseenter)="hovered=true" (mouseleave)="hovered=false" (click)="togglePLayPause()">
+      <fa-icon [icon]="playing ? fa_pause_empty : fa_play_empty" class="pause-button" [class.visible]="!hovered"/>
+      <fa-icon [icon]="playing ? fa_pause_full : fa_play_full" class="pause-button" [class.visible]="hovered"/>
+    </div>
+    <span>{{current_time* 1000 | date:'mm:ss'}}</span>
+
+    <div class="time-bar">
+      <p-slider [(ngModel)]="current_time" [min]="0" [max]="duration" (onChange)="seek($event)" styleClass="w-56" />
+    </div>
+
+    <span>{{(duration === 0 ? "-:--" : duration* 1000 | date:'mm:ss')}}</span>
+    <div class="icon-wrapper state-buttons">
+      <fa-icon [icon]="fa_shuffle" [class.enabled]="is_shuffle" (click)="shuffleQueue()"/>
+      <fa-icon [icon]="faRepeat" [class.enabled]="is_repeat" (click)="repeatQueue()"/>
+      <div class="waiting-list-block">
+        <fa-icon [icon]="faBarsStaggered" [class.enabled]="show_waiting_list" (click)="toggleWaitingList()"/>
+      </div>
+    </div>
+    @if(show_waiting_list){
+      <app-waiting-list [songs]="getQueue()"></app-waiting-list>
+    }
+  </div>
+</div>
+

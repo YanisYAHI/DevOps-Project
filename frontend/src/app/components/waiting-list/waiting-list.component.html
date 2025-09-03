@@ -1,0 +1,7 @@
+
+<div class="lk">
+  @for (song of songs(); track song.id) {
+    <p [class.playing]="current_song$?.id === song.id">{{song.title}}</p>
+  }
+</div>
+

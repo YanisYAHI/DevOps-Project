@@ -1,0 +1,7 @@
+<div class="album-grid">
+  @for(album of albums$ | async; track $index){
+    <app-home-element [album]="album"></app-home-element>
+  }
+</div>
+
+<app-play-bar></app-play-bar>

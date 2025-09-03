@@ -1,0 +1,14 @@
+<div class="wrapper" [routerLink]="['/album',album().id]" >
+  <div class="image">
+    <img src="{{album().album_cover}}" />
+  </div>
+  <div class="title">
+    <a [routerLink]="['/album',album().id]"> {{album().title}}</a>
+  </div>
+  <div class="artist">
+    <a [routerLink]="['/artist',album().artist_id]">{{album().artist_id}}</a>
+  </div>
+  <div class="hov">
+  </div>
+</div>
+

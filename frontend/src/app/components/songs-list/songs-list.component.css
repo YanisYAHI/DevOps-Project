@@ -1,0 +1,138 @@
+.album-general-info {
+  display: flex;
+  align-items: center;  /* centre verticalement le contenu */
+  gap: 1rem;            /* espace entre l'image et le titre */
+  width: 100%;
+  height: 30vh;
+  padding: 1rem;        /* petit padding autour */
+  box-sizing: border-box;
+  margin-bottom: 1rem;
+}
+
+.album-cover {
+  height: 100%;         /* s'adapte à la hauteur de album-info */
+  flex-shrink: 0;       /* empêche l'image de se réduire trop */
+}
+
+.album-cover img {
+  height: 100%;         /* image prend 100% de la hauteur dispo */
+  width: auto;          /* conserve son ratio */
+  display: block;
+  border-radius: 8px;   /* optionnel, joli arrondi */
+}
+
+.album-text-info {
+  display: flex;           /* transforme en flexbox */
+  flex-direction: column;
+  /*flex: 1;                 !* prend tout l’espace restant *!*/
+  align-self: flex-end;
+  font-size: 1.5rem;
+
+}
+
+.album-text-info h1 {
+  margin: 0;
+}
+
+.general-buttons{
+  display: flex;
+  background-color: gray;
+  height: 50%;
+  flex:1;
+  align-self: flex-end;
+  gap: 1rem;
+}
+
+.general-buttons fa-icon{
+  font-size: 3rem;
+}
+
+.general-wrapper{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.track-row{
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 6vh;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.track-row::before{
+  content: '';
+  border-radius: 5px;
+  position: absolute;
+  inset:0;
+  background-color: rgba(255, 255, 255, 0.1);
+  opacity: 0;
+  transition: opacity 0.1s ease;
+  pointer-events: none;
+}
+
+.track-row:hover::before{
+  opacity: 1;
+}
+
+.track-row:hover {
+  background-color: rgba(0, 0, 0, 0.05); /* léger overlay */
+  cursor: pointer;
+}
+
+.track-id{
+  width: 8vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.track-infos{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 2px;
+}
+
+.track-title{
+  font-size: 1.3rem;
+}
+
+.track-duration{
+  right: 0px;
+  padding-right: 15px;
+}
+
+.playing{
+  color: #cb04e2;
+}
+
+.vinyl{
+  font-size: 1.3rem;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+  position: relative;
+}
+
+a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0%;
+  height: 2px;
+  background: white;
+  transition: width 0.2s ease;
+}
+
+a:hover::after {
+  width: 100%;
+}

@@ -1,0 +1,57 @@
+
+@if (data$| async; as data) {
+
+  <div class="album-general-info">
+    <div class="album-cover">
+      <img src="{{data.album.album_cover}}" />
+    </div>
+
+    <div class="album-text-info">
+      <span>
+        <a [routerLink]="['/artist',data.album.artist_id]">{{data.album.artist_id}}</a>
+      </span>
+      <h1>{{data.album.title}}</h1>
+      <span>{{data.album.release_year}}</span>
+    </div>
+    <div class="general-buttons">
+
+      <fa-icon class="vinyl" [icon]="faPlay"/>
+      <fa-icon class="vinyl" [icon]="faCompactDisc" animation="spin"/>
+    </div>
+
+  </div>
+
+  <div class="general-wrapper">
+    <span>{{current_song?.title}}</span>
+    @for(song of data.tracks; track song.id){
+      <div class="track-row" (click)="playSelectedSong(song)">
+        <div class="track-id">
+          @if(current_song?.id === song.id){
+            <fa-icon class="vinyl" [icon]="faCompactDisc" animation="spin"/>
+          } @else {
+            <span>{{song.track_number}}</span>
+          }
+        </div>
+        <div class="track-infos">
+          <div class="track-title">
+            <span [class.playing]="current_song?.id === song.id">{{song.title}}</span>
+          </div>
+          <div class="track-artist">
+            <span>
+              <a [routerLink]="['/artist',data.album.artist_id]">{{data.album.artist_id}}</a>
+            </span>
+          </div>
+        </div>
+        <div class="track-duration">
+          <span>{{song.duration * 1000 | date:'mm:ss'}}</span>
+        </div>
+
+
+      </div>
+
+    }
+  </div>
+
+}
+
+<app-play-bar></app-play-bar>

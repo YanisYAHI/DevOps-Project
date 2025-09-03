@@ -1,0 +1,10 @@
+.lk{
+  position: absolute;
+  background-color: gray;
+  bottom: 100%;
+  right: 50%;
+}
+
+.playing{
+  color: #cb04e2;
+}
