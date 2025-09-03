@@ -106,20 +106,6 @@ export async function addMultipleTracksDb(db) {
     }
 }
 
-// export async function getAllTracksofAlbum(db,artist_id){
-//     try {
-//         const albums = await db.all('SELECT title,artist_id,release_year,album_cover FROM ALBUMS WHERE artist_id=?', [artist_id])
-//         for (const album of albums){
-//             const album_id = await db.get('SELECT id FROM albums WHERE title=?', [album.title])
-//             album['songs'] = await db.all('SELECT title,duration,track_number,genre,song_path FROM songs WHERE album_id=?', [album_id.id]);
-//         }
-//         return albums;
-//     }
-//     catch (error) {
-//         console.error("Get All tracks of album error:", error.message);
-//     }
-// }
-
 export async function getAllAlbumsdB(db) {
     try {
         return await db.all('SELECT * FROM albums');
@@ -187,7 +173,3 @@ async function main() {
     }
 
 }
-
-const s = "bytes=0-"
-
-console.log(s.replace('bytes=','').split('-'))

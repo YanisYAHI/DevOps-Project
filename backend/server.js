@@ -7,7 +7,6 @@ import {
     getAlbumInfodB,
     getArtistInfodb,
     getTrackInfodB,
-    getAlbumInfo
 } from './utils.js'
 import * as fs from "node:fs";
 
@@ -20,10 +19,8 @@ app.use('/static', express.static('public'));
 
 
 app.get('/api/all',async (req, res) => {
-    console.log("rr")
     try{
         const db = await initDb()
-        //const albums_info = await getAllTracksofAlbum(db,'Damso')
         const albums_info = await getAllAlbumsdB(db)
         res.json(albums_info)
     }
@@ -54,7 +51,6 @@ app.get('/api/album/:album_id',async (req, res) => {
         const db = await initDb()
         const tracks = await getAllAlbumTracksdB(db,req.params.album_id)
         const album_info = await getAlbumInfodB(db,req.params.album_id)
-        console.log({album:album_info,tracks:tracks})
         res.json({album:album_info,tracks:tracks})
     }
     catch(error) {
