@@ -21,6 +21,7 @@
     "@fortawesome/free-brands-svg-icons": "^6.7.1",
     "@fortawesome/free-regular-svg-icons": "^6.7.1",
     "@fortawesome/free-solid-svg-icons": "^6.7.1",
+    "@primeng/themes": "^20.1.1",
     "primeicons": "^7.0.0",
     "primeng": "^19.1.4",
     "rxjs": "~7.8.0",
