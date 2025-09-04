@@ -5,9 +5,10 @@ COPY package*.json ./
 RUN npm install
 COPY . .
 RUN npm run build -- --configuration production
+CMD ["npm","start"]
 
-## Étape 2 : Servir avec nginx
-#FROM nginx:alpine
-#COPY --from=build /app/dist/mini-spotify /usr/share/nginx/html
-#EXPOSE 80
-#CMD ["nginx", "-g", "daemon off;"]
+# Étape 2 : Servir avec nginx
+FROM nginx:alpine
+COPY --from=build /app/dist/mini-spotify/browser /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
