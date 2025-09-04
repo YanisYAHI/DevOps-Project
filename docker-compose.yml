@@ -7,8 +7,6 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: admin
       POSTGRES_DB: musicdb
-    ports:
-      - "5432:5432"
     volumes:
       - db-data:/var/lib/postgresql/data
 
@@ -29,6 +27,15 @@ services:
       - /srv/mini-spotify-data/musics:/musics
     ports:
       - "3000:3000"
+
+  frontend:
+    build: ./frontend
+    container_name: angular-frontend
+    restart: on-failure:5
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
 
 volumes:
   db-data:

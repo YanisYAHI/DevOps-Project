@@ -1,7 +1,6 @@
 import express from 'express';
 import cors from 'cors';
 import {
-    initDb,
     getAllAlbumTracksdB,
     getAllAlbumsdB,
     getAlbumInfodB,
@@ -20,7 +19,6 @@ app.use('/static', express.static('public'));
 
 app.get('/api/all',async (req, res) => {
     try{
-        //const db = await initDb()
         const albums_info = await getAllAlbumsdB()
         res.json(albums_info)
     }
@@ -33,7 +31,6 @@ app.get('/api/all',async (req, res) => {
 
 app.get('/api/artist/:artist_id',async (req, res) => {
     try{
-        //const db = await initDb();
         const artist_info = await getArtistInfodb(req.params.artist_id)
         res.json(artist_info)
     } catch(error) {
@@ -48,7 +45,6 @@ app.get('/api/artist/:artist_id',async (req, res) => {
 
 app.get('/api/album/:album_id',async (req, res) => {
     try{
-        //const db = await initDb()
         const tracks = await getAllAlbumTracksdB(req.params.album_id)
         const album_info = await getAlbumInfodB(req.params.album_id)
         res.json({album:album_info,tracks:tracks})
@@ -63,33 +59,12 @@ app.get('/api/album/:album_id',async (req, res) => {
     }
 })
 
-
-app.get('/api/audio', (req, res) => {
-
-    const song_path = '/static/Damso/Batterie Faible/03. Damso - Exutoire.flac'.replace('/static','public')
-    const range = req.headers.range || 0;
-    const parts = range.replace(/bytes=/,'').split('-')
-    const song_size = fs.statSync(song_path).size;
-    const CHUNK_SIZE = 10 ** 6;
-    const start = parseInt(parts[0])
-    const end = Math.min(start + CHUNK_SIZE -1, song_size - 1)
-    const chunk = fs.createReadStream(song_path, {start, end})
-
-    const head = {
-        "Content-Range": `bytes ${start}-${end}/${song_size}`,
-        "Accept-Ranges": "bytes",
-        "Content-Length": CHUNK_SIZE,
-        "Content-Type": "audio/flac"
-    }
-
-    res.writeHead(206,head)
-    chunk.pipe(res)
-})
-
 app.get('/api/:song_id', async (req, res) => {
         try {
-            //const db = await initDb()
-            const song_path = (await getTrackInfodB(req.params.song_id)).song_path.replace('/static','public')
+            const tmp = await getTrackInfodB(req.params.song_id)
+            console.log(tmp)
+            const song_path = (await getTrackInfodB(req.params.song_id)).song_path.replace('/static','/musics')
+            console.log("aajajajja", song_path)
             const range = req.headers.range || 0;
             const parts = range.replace(/bytes=/, '').split('-')
             const song_size = fs.statSync(song_path).size;

@@ -150,9 +150,9 @@ export async function getAlbumInfodB(album_id) {
 
 export async function getTrackInfodB(track_id) {
     try {
-        return (await query('SELECT * FROM songs WHERE id=?',[track_id])).rows;
+        return (await query('SELECT * FROM songs WHERE id=$1',[track_id])).rows[0];
     } catch (error) {
-        console.error("Get album info error:", error.message);
+        console.error("Get track info error:", error.message);
     }
 }
 
@@ -173,7 +173,7 @@ export async function getTrackInfodB(track_id) {
 
 export async function getAllAlbumTracksdB(album_id) {
     try {
-        const songs = (await query('SELECT * FROM songs WHERE album_id=?', [album_id])).rows
+        const songs = (await query('SELECT * FROM songs WHERE album_id=$1', [album_id])).rows
         if (songs === undefined || songs.length === 0) {
             throw new Error("Album not found");
         }
@@ -211,7 +211,6 @@ export async function getArtistInfodb(artist_id) {
         throw error;
     }
 }
-
 
 async function main() {
 
