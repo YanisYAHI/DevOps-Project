@@ -20,8 +20,8 @@ app.use('/static', express.static('public'));
 
 app.get('/api/all',async (req, res) => {
     try{
-        const db = await initDb()
-        const albums_info = await getAllAlbumsdB(db)
+        //const db = await initDb()
+        const albums_info = await getAllAlbumsdB()
         res.json(albums_info)
     }
     catch(error){
@@ -33,8 +33,8 @@ app.get('/api/all',async (req, res) => {
 
 app.get('/api/artist/:artist_id',async (req, res) => {
     try{
-        const db = await initDb();
-        const artist_info = await getArtistInfodb(db,req.params.artist_id)
+        //const db = await initDb();
+        const artist_info = await getArtistInfodb(req.params.artist_id)
         res.json(artist_info)
     } catch(error) {
         if (error.message.includes('not found')) {
@@ -48,9 +48,9 @@ app.get('/api/artist/:artist_id',async (req, res) => {
 
 app.get('/api/album/:album_id',async (req, res) => {
     try{
-        const db = await initDb()
-        const tracks = await getAllAlbumTracksdB(db,req.params.album_id)
-        const album_info = await getAlbumInfodB(db,req.params.album_id)
+        //const db = await initDb()
+        const tracks = await getAllAlbumTracksdB(req.params.album_id)
+        const album_info = await getAlbumInfodB(req.params.album_id)
         res.json({album:album_info,tracks:tracks})
     }
     catch(error) {
@@ -88,8 +88,8 @@ app.get('/api/audio', (req, res) => {
 
 app.get('/api/:song_id', async (req, res) => {
         try {
-            const db = await initDb()
-            const song_path = (await getTrackInfodB(db,req.params.song_id)).song_path.replace('/static','public')
+            //const db = await initDb()
+            const song_path = (await getTrackInfodB(req.params.song_id)).song_path.replace('/static','public')
             const range = req.headers.range || 0;
             const parts = range.replace(/bytes=/, '').split('-')
             const song_size = fs.statSync(song_path).size;

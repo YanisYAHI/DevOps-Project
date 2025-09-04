@@ -2,10 +2,11 @@ import sqlite3 from 'sqlite3';
 import {open} from "sqlite";
 import {parseFile} from 'music-metadata';
 import * as fs from 'fs';
+import {query} from './db.js'
 
 
 const ALBUM_PATH = './public/Freeze Corleone/LMF/'
-const TRACKS_FILES = getFiles(ALBUM_PATH)
+//const TRACKS_FILES = getFiles(ALBUM_PATH)
 
 
 async function getRawMetadata(path) {
@@ -106,33 +107,73 @@ export async function addMultipleTracksDb(db) {
     }
 }
 
-export async function getAllAlbumsdB(db) {
+// export async function getAllAlbumsdB(db) {
+//     try {
+//         return await db.all('SELECT * FROM albums');
+//     } catch (error) {
+//         console.error("Get All albums error:", error.message);
+//     }
+// }
+
+export async function getAllAlbumsdB() {
     try {
-        return await db.all('SELECT * FROM albums');
+        return (await query('SELECT * FROM albums')).rows;
     } catch (error) {
         console.error("Get All albums error:", error.message);
     }
 }
 
-export async function getAlbumInfodB(db,album_id) {
+// export async function getAlbumInfodB(db,album_id) {
+//     try {
+//         return await db.get('SELECT * FROM albums WHERE id=?',[album_id]);
+//     } catch (error) {
+//         console.error("Get album info error:", error.message);
+//     }
+// }
+
+export async function getAlbumInfodB(album_id) {
     try {
-        return await db.get('SELECT * FROM albums WHERE id=?',[album_id]);
+        return (await query('SELECT * FROM albums WHERE id=?',[album_id])).rows;
     } catch (error) {
         console.error("Get album info error:", error.message);
     }
 }
 
-export async function getTrackInfodB(db,track_id) {
+
+// export async function getTrackInfodB(db,track_id) {
+//     try {
+//         return await db.get('SELECT * FROM songs WHERE id=?',[track_id]);
+//     } catch (error) {
+//         console.error("Get album info error:", error.message);
+//     }
+// }
+
+export async function getTrackInfodB(track_id) {
     try {
-        return await db.get('SELECT * FROM songs WHERE id=?',[track_id]);
+        return (await query('SELECT * FROM songs WHERE id=?',[track_id])).rows;
     } catch (error) {
         console.error("Get album info error:", error.message);
     }
 }
 
-export async function getAllAlbumTracksdB(db, album_id) {
+
+// export async function getAllAlbumTracksdB(db, album_id) {
+//     try {
+//         const songs = await db.all('SELECT * FROM songs WHERE album_id=?', [album_id])
+//         if (songs === undefined || songs.length === 0) {
+//             throw new Error("Album not found");
+//         }
+//         return songs;
+//     } catch (error) {
+//         console.error("Get All tracks tracks error:", error.message);
+//         throw error;
+//     }
+// }
+
+
+export async function getAllAlbumTracksdB(album_id) {
     try {
-        const songs = await db.all('SELECT * FROM songs WHERE album_id=?', [album_id])
+        const songs = (await query('SELECT * FROM songs WHERE album_id=?', [album_id])).rows
         if (songs === undefined || songs.length === 0) {
             throw new Error("Album not found");
         }
@@ -143,18 +184,34 @@ export async function getAllAlbumTracksdB(db, album_id) {
     }
 }
 
-export async function getArtistInfodb(db,artist_id) {
+
+// export async function getArtistInfodb(db,artist_id) {
+//     try {
+//         const artist_infos = await db.get('SELECT * FROM artists WHERE id=?',[artist_id]);
+//         if (artist_infos === undefined){
+//             throw new Error("Artist not found");
+//         }
+//         return artist_infos;
+//     } catch (error) {
+//         console.error("Get Artist info error:", error.message);
+//         throw error;
+//     }
+// }
+
+
+export async function getArtistInfodb(artist_id) {
     try {
-        const artist_infos = await db.get('SELECT * FROM artists WHERE id=?',[artist_id]);
-        if (artist_infos === undefined){
+        const artist_infos = await query('SELECT * FROM artists WHERE id=$1',[artist_id]);
+        if (artist_infos.rows.length === 0){
             throw new Error("Artist not found");
         }
-        return artist_infos;
+        return artist_infos.rows;
     } catch (error) {
         console.error("Get Artist info error:", error.message);
         throw error;
     }
 }
+
 
 async function main() {
 
@@ -165,6 +222,8 @@ async function main() {
         //const a = await getAllAlbumTracks(db,5)
         //console.log(a)
         //await addMultipleTracksDb(db)
+        const k = await getArtistInfodb('Damso')
+        console.log(k);
     } catch (error) {
         console.error("Main error:", error.message);
     } finally {
@@ -173,3 +232,5 @@ async function main() {
     }
 
 }
+
+//main()
