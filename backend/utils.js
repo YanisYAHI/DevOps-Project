@@ -133,7 +133,9 @@ export async function getAllAlbumsdB() {
 
 export async function getAlbumInfodB(album_id) {
     try {
-        return (await query('SELECT * FROM albums WHERE id=$1',[album_id])).rows;
+        const res = await query('SELECT * FROM albums WHERE id=$1',[album_id]).rows[0]
+        res['album_cover'] = res.album_cover.replace('/static','/musics')
+        return res
     } catch (error) {
         console.error("Get album info error:", error.message);
     }
@@ -205,7 +207,7 @@ export async function getArtistInfodb(artist_id) {
         if (artist_infos.rows.length === 0){
             throw new Error("Artist not found");
         }
-        return artist_infos.rows;
+        return artist_infos.rows[0];
     } catch (error) {
         console.error("Get Artist info error:", error.message);
         throw error;
