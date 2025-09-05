@@ -133,8 +133,8 @@ export async function getAllAlbumsdB() {
 
 export async function getAlbumInfodB(album_id) {
     try {
+        console.log("album_id: ", album_id);
         let res = await query('SELECT * FROM albums WHERE id=$1',[album_id])
-        res.rows[0].album_cover = res.rows[0].album_cover.replace('/static','/musics')
         return res.rows[0]
     } catch (error) {
         console.error("Get album info error:", error.message);
