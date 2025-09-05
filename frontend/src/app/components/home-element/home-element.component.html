@@ -1,6 +1,6 @@
 <div class="wrapper" [routerLink]="['/album',album().id]" >
   <div class="image">
-    <img src="{{album().album_cover}}" />
+    <img src="{{album().cover_path}}" />
   </div>
   <div class="title">
     <a [routerLink]="['/album',album().id]"> {{album().title}}</a>
