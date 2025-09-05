@@ -133,7 +133,7 @@ export async function getAllAlbumsdB() {
 
 export async function getAlbumInfodB(album_id) {
     try {
-        return (await query('SELECT * FROM albums WHERE id=?',[album_id])).rows;
+        return (await query('SELECT * FROM albums WHERE id=$1',[album_id])).rows;
     } catch (error) {
         console.error("Get album info error:", error.message);
     }

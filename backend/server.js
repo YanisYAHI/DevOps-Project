@@ -21,6 +21,7 @@ app.get('/api/all',async (req, res) => {
     try{
         console.log("/api/all requested")
         const albums_info = await getAllAlbumsdB()
+        console.log("all albums : ", albums_info)
         res.json(albums_info)
     }
     catch(error){
@@ -34,6 +35,7 @@ app.get('/api/artist/:artist_id',async (req, res) => {
     try{
         console.log("/api/artist/",req.params.artist_id,"requested")
         const artist_info = await getArtistInfodb(req.params.artist_id)
+        console.log("artist infos : ", artist_info)
         res.json(artist_info)
     } catch(error) {
         if (error.message.includes('not found')) {
@@ -50,6 +52,7 @@ app.get('/api/album/:album_id',async (req, res) => {
         console.log("/api/album/",req.params.album_id,"requested")
         const tracks = await getAllAlbumTracksdB(req.params.album_id)
         const album_info = await getAlbumInfodB(req.params.album_id)
+        console.log("album return : ", {album:album_info,tracks:tracks})
         res.json({album:album_info,tracks:tracks})
     }
     catch(error) {
