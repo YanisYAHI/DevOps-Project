@@ -19,6 +19,7 @@ app.use('/static', express.static('public'));
 
 app.get('/api/all',async (req, res) => {
     try{
+        console.log("/api/all requested")
         const albums_info = await getAllAlbumsdB()
         res.json(albums_info)
     }
@@ -31,6 +32,7 @@ app.get('/api/all',async (req, res) => {
 
 app.get('/api/artist/:artist_id',async (req, res) => {
     try{
+        console.log("/api/artist/",req.params.artist_id,"requested")
         const artist_info = await getArtistInfodb(req.params.artist_id)
         res.json(artist_info)
     } catch(error) {
@@ -45,6 +47,7 @@ app.get('/api/artist/:artist_id',async (req, res) => {
 
 app.get('/api/album/:album_id',async (req, res) => {
     try{
+        console.log("/api/album/",req.params.album_id,"requested")
         const tracks = await getAllAlbumTracksdB(req.params.album_id)
         const album_info = await getAlbumInfodB(req.params.album_id)
         res.json({album:album_info,tracks:tracks})
@@ -61,10 +64,8 @@ app.get('/api/album/:album_id',async (req, res) => {
 
 app.get('/api/:song_id', async (req, res) => {
         try {
-            const tmp = await getTrackInfodB(req.params.song_id)
-            console.log(tmp)
+            console.log("/api/",req.params.song_id,"requested")
             const song_path = (await getTrackInfodB(req.params.song_id)).song_path.replace('/static','/musics')
-            console.log("aajajajja", song_path)
             const range = req.headers.range || 0;
             const parts = range.replace(/bytes=/, '').split('-')
             const song_size = fs.statSync(song_path).size;
