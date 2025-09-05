@@ -14,7 +14,7 @@ const app = express();
 const PORT = 3000;
 
 app.use(cors());
-app.use('/static', express.static('public'));
+app.use('/musics', express.static('musics'));
 
 
 app.get('/api/all',async (req, res) => {
