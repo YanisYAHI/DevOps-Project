@@ -1,5 +1,3 @@
-import sqlite3 from 'sqlite3';
-import {open} from "sqlite";
 import {parseFile} from 'music-metadata';
 import * as fs from 'fs';
 import {query} from './db.js'
@@ -53,13 +51,6 @@ function getTrackInfo(metadata, path) {
 
 /** --------------- Database part --------------- **/
 
-export async function initDb() {
-    return open({
-        filename: 'music.db',
-        driver: sqlite3.Database
-    });
-}
-
 export async function addAlbumInDb(db) {
     const data = await getAlbumInfo();
 
@@ -107,13 +98,6 @@ export async function addMultipleTracksDb(db) {
     }
 }
 
-// export async function getAllAlbumsdB(db) {
-//     try {
-//         return await db.all('SELECT * FROM albums');
-//     } catch (error) {
-//         console.error("Get All albums error:", error.message);
-//     }
-// }
 
 export async function getAllAlbumsdB() {
     try {
@@ -123,13 +107,6 @@ export async function getAllAlbumsdB() {
     }
 }
 
-// export async function getAlbumInfodB(db,album_id) {
-//     try {
-//         return await db.get('SELECT * FROM albums WHERE id=?',[album_id]);
-//     } catch (error) {
-//         console.error("Get album info error:", error.message);
-//     }
-// }
 
 export async function getAlbumInfodB(album_id) {
     try {
@@ -142,14 +119,6 @@ export async function getAlbumInfodB(album_id) {
 }
 
 
-// export async function getTrackInfodB(db,track_id) {
-//     try {
-//         return await db.get('SELECT * FROM songs WHERE id=?',[track_id]);
-//     } catch (error) {
-//         console.error("Get album info error:", error.message);
-//     }
-// }
-
 export async function getTrackInfodB(track_id) {
     try {
         return (await query('SELECT * FROM songs WHERE id=$1',[track_id])).rows[0];
@@ -157,20 +126,6 @@ export async function getTrackInfodB(track_id) {
         console.error("Get track info error:", error.message);
     }
 }
-
-
-// export async function getAllAlbumTracksdB(db, album_id) {
-//     try {
-//         const songs = await db.all('SELECT * FROM songs WHERE album_id=?', [album_id])
-//         if (songs === undefined || songs.length === 0) {
-//             throw new Error("Album not found");
-//         }
-//         return songs;
-//     } catch (error) {
-//         console.error("Get All tracks tracks error:", error.message);
-//         throw error;
-//     }
-// }
 
 
 export async function getAllAlbumTracksdB(album_id) {
@@ -187,20 +142,6 @@ export async function getAllAlbumTracksdB(album_id) {
 }
 
 
-// export async function getArtistInfodb(db,artist_id) {
-//     try {
-//         const artist_infos = await db.get('SELECT * FROM artists WHERE id=?',[artist_id]);
-//         if (artist_infos === undefined){
-//             throw new Error("Artist not found");
-//         }
-//         return artist_infos;
-//     } catch (error) {
-//         console.error("Get Artist info error:", error.message);
-//         throw error;
-//     }
-// }
-
-
 export async function getArtistInfodb(artist_id) {
     try {
         const artist_infos = await query('SELECT * FROM artists WHERE id=$1',[artist_id]);
@@ -212,24 +153,4 @@ export async function getArtistInfodb(artist_id) {
         console.error("Get Artist info error:", error.message);
         throw error;
     }
-}
-
-async function main() {
-
-    const db = await initDb();
-    try {
-        //const meta = getTrackInfo(getRawMetadata(ALBUM_PATH+TRACKS_FILES[0]),ALBUM_PATH+TRACKS_FILES[0]);
-        //const m = await getRawMetadata(ALBUM_PATH+TRACKS_FILES[0])
-        //const a = await getAllAlbumTracks(db,5)
-        //console.log(a)
-        //await addMultipleTracksDb(db)
-        const k = await getArtistInfodb('Damso')
-        console.log(k);
-    } catch (error) {
-        console.error("Main error:", error.message);
-    } finally {
-        await db.close()
-        console.log("Database closed.")
-    }
-
 }

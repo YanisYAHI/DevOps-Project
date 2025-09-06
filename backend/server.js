@@ -35,7 +35,6 @@ app.get('/api/artist/:artist_id',async (req, res) => {
     try{
         console.log("/api/artist/",req.params.artist_id,"requested")
         const artist_info = await getArtistInfodb(req.params.artist_id)
-        console.log("artist infos : ", artist_info)
         res.json(artist_info)
     } catch(error) {
         if (error.message.includes('not found')) {
@@ -68,7 +67,7 @@ app.get('/api/album/:album_id',async (req, res) => {
 app.get('/api/:song_id', async (req, res) => {
         try {
             console.log("/api/",req.params.song_id,"requested")
-            const song_path = (await getTrackInfodB(req.params.song_id)).song_path.replace('/static','/musics')
+            const song_path = await getTrackInfodB(req.params.song_id)
             const range = req.headers.range || 0;
             const parts = range.replace(/bytes=/, '').split('-')
             const song_size = fs.statSync(song_path).size;
