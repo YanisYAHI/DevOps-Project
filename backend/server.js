@@ -67,7 +67,7 @@ app.get('/api/album/:album_id',async (req, res) => {
 app.get('/api/:song_id', async (req, res) => {
         try {
             console.log("/api/",req.params.song_id,"requested")
-            const song_path = await getTrackInfodB(req.params.song_id)
+            const song_path = (await getTrackInfodB(req.params.song_id)).song_path
             const range = req.headers.range || 0;
             const parts = range.replace(/bytes=/, '').split('-')
             const song_size = fs.statSync(song_path).size;
