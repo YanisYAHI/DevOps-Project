@@ -78,6 +78,7 @@ export class PlayerService {
   }
 
   pauseSong() {
+    console.log(this.song_index)
     this.audioService.pause();
   }
 
@@ -85,38 +86,35 @@ export class PlayerService {
     if(this.song_index >= this.queue.length){
       return
     }
-    console.log(this.queue)
-    console.log(this.current_song)
-    console.log(this.song_index)
     this.song_index +=1;
     this.current_song = this.queue[this.song_index]!
     this.currentSongSubject.next(this.current_song)
-    console.log(this.song_index)
-
-    console.log(this.current_song)
     this.playSong()
   }
 
   replaySong() {
-    const url = '/api/' + this.current_song?.id;
-    this.audioService.load(url);
+    this.audioService.replay();
   }
 
   previousSong() {
-    if(this.current_song!.duration < 2){
-      this.current_song = this.queue[this.song_index]!
-      this.replaySong()
-    }
-    else{
-      this.song_index -=1;
+    if(this.audioService.getCurrentTime() < 3 && this.song_index != 0) {
+      this.song_index -= 1;
       this.current_song = this.queue[this.song_index]!
       this.currentSongSubject.next(this.current_song)
       this.playSong()
     }
+    else {
+      this.replaySong()
+    }
+    console.log(this.song_index)
   }
 
   shuffle() {
-    const arr = this.playlist
+    this.song_index = 0
+    let arr = [...this.queue].slice(1,this.queue.length);
+    console.log("base:",[...arr]);
+    //arr.splice(arr.indexOf(this.current_song!,1))
+    console.log("kaka:",[...arr]);
     let random_nb, tmp;
     let i = arr.length;
     while (--i > 0){
@@ -125,13 +123,19 @@ export class PlayerService {
       arr[random_nb] = arr[i]
       arr[i] = tmp
     }
+    console.log("pipi:",[...arr]);
+    arr.unshift(this.current_song!)
+    console.log("pbobo:",[...arr]);
     this.queue = arr
+    console.log("--------------------------------------");
+
   }
 
   unshuffle() {
     this.queue = this.playlist.filter(
-      (song) => song.track_number > this.current_song!.track_number,
+      (song) => song.track_number >= this.current_song!.track_number,
     );
+    this.song_index = 0
   }
 
   setRepeat(bool: boolean) {

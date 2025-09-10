@@ -5,9 +5,10 @@ import {
     getAllAlbumsdB,
     getAlbumInfodB,
     getArtistInfodb,
-    getTrackInfodB,
+    getTrackInfodB, getArtistAlbums,
 } from './utils.js'
 import * as fs from "node:fs";
+import * as path from "node:path";
 
 
 const app = express();
@@ -15,6 +16,7 @@ const PORT = 3000;
 
 app.use(cors());
 app.use('/musics', express.static('/musics'));
+//app.use('/musics', express.static('/public'));
 
 
 app.get('/api/all',async (req, res) => {
@@ -35,7 +37,9 @@ app.get('/api/artist/:artist_id',async (req, res) => {
     try{
         console.log("/api/artist/",req.params.artist_id,"requested")
         const artist_info = await getArtistInfodb(req.params.artist_id)
-        res.json(artist_info)
+        const albums = await getArtistAlbums(req.params.artist_id)
+        console.log("artists : ", {artist_info: artist_info, albums: albums})
+        res.json({artist_info: artist_info, albums: albums})
     } catch(error) {
         if (error.message.includes('not found')) {
             res.status(404).send('Not found');
@@ -68,6 +72,15 @@ app.get('/api/:song_id', async (req, res) => {
         try {
             console.log("/api/",req.params.song_id,"requested")
             const song_path = (await getTrackInfodB(req.params.song_id)).song_path
+
+
+
+            //const tmp = (await getTrackInfodB(req.params.song_id)).song_path
+            //const song_path = path.join("N://Code/Home-lab/backend/"+tmp.replace('/musics/', 'public/'));
+
+
+
+            console.log("song_path: ", song_path)
             const range = req.headers.range || 0;
             const parts = range.replace(/bytes=/, '').split('-')
             const song_size = fs.statSync(song_path).size;

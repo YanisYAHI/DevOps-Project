@@ -37,6 +37,10 @@ export class AudioService {
     return this.ended$;
   }
 
+  getCurrentTime(): number{
+    return this.currentTimeSubject.getValue()
+  }
+
   load(src: string){
     if(this.current_src === src){
       return;
@@ -60,6 +64,11 @@ export class AudioService {
 
   setVolume(volume: number){
     this.audio.volume = volume;
+  }
+
+  replay(){
+    this.audio.load()
+    this.play()
   }
 
 }

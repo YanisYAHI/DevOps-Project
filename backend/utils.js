@@ -110,11 +110,19 @@ export async function getAllAlbumsdB() {
 
 export async function getAlbumInfodB(album_id) {
     try {
-        console.log("album_id: ", album_id);
-        let res = await query('SELECT * FROM albums WHERE id=$1',[album_id])
+        const res = await query('SELECT * FROM albums WHERE id=$1',[album_id])
         return res.rows[0]
     } catch (error) {
         console.error("Get album info error:", error.message);
+    }
+}
+
+export async function getArtistAlbums(artist_id) {
+    try {
+        const res = await query('SELECT * FROM albums WHERE artist_id=$1',[artist_id])
+        return res.rows
+    } catch (error) {
+        console.error("Get artist albums error:", error.message);
     }
 }
 

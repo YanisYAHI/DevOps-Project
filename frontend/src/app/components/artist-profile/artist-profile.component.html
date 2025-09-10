@@ -1,13 +1,15 @@
 <div>
   <h1>
-    {{(artist_info$ | async)?.id}}
+    {{(artist_info$ | async)?.artist_info?.id}}
   </h1>
 
 </div>
 
 <div>
   Number of albums :
-  <a>{{(artist_info$ | async)?.album_count}}</a>
+  <a>{{(artist_info$ | async)?.artist_info?.album_count}}</a>
 </div>
+
+<app-albums-list [albums]="(artist_info$ | async)?.albums"></app-albums-list>
 
 <app-play-bar></app-play-bar>
