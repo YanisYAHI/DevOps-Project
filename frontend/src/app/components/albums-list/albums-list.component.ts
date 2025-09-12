@@ -20,12 +20,15 @@ export class AlbumsListComponent {
 
   ngOnInit() {
     if (this.albums()){
+      console.log("IF sqdqsd:",this.albums())
+      console.log("IF qsdqsd",this.albums);
       this.albums$ = toObservable(this.albums)
     }
     else{
+      console.log("sqdqsd:",this.albums())
+      console.log("qsdqsd",this.albums);
       this.albums$ = this.http.get<Album[] | null>('api/all')
     }
   }
-
 
 }
