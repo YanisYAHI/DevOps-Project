@@ -75,8 +75,8 @@ app.get('/api/:song_id', async (req, res) => {
 
 
 
-            //const tmp = (await getTrackInfodB(req.params.song_id)).song_path
-            //const song_path = path.join("N://Code/Home-lab/backend/"+tmp.replace('/musics/', 'public/'));
+            // const tmp = (await getTrackInfodB(req.params.song_id)).song_path
+            // const song_path = path.join("N://Code/Home-lab/backend/"+tmp.replace('/musics/', 'public/'));
 
 
 

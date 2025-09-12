@@ -5,7 +5,7 @@ import { AsyncPipe } from '@angular/common';
 import { Album } from '../../models/album';
 import { PlayBarComponent } from '../play-bar/play-bar.component';
 import {toObservable} from '@angular/core/rxjs-interop';
-import {Observable, of, switchMap} from 'rxjs';
+import {of, switchMap} from 'rxjs';
 
 @Component({
   selector: 'app-albums-list',
@@ -21,10 +21,9 @@ export class AlbumsListComponent {
   albums$ = toObservable(this.albums).pipe(
     switchMap(albums => {
       if (albums && albums.length > 0) {
-        console.log("qsdqsd : ",albums)
-        return of(albums); // utiliser ceux du parent
+        return of(albums);
       } else {
-        return this.http.get<Album[]>('api/all'); // fallback
+        return this.http.get<Album[]>('api/all');
       }
     })
   );

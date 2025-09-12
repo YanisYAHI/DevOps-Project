@@ -71,12 +71,18 @@ a:hover::after {
   font-size: 1.1em;
   margin-top: 10px;
   margin-left: 5px;
-  height: 10%;
+
 }
 
 .artist{
   font-size: 0.9em;
   margin-top: 7px;
   margin-left: 5px;
-  height: 10%;
+
+}
+
+.title a, .artist a{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

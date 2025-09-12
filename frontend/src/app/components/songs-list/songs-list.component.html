@@ -11,15 +11,27 @@
         <a [routerLink]="['/artist',data.album.artist_id]">{{data.album.artist_id}}</a>
       </span>
       <h1>{{data.album.title}}</h1>
-      <span>{{data.album.release_year}}</span>
-    </div>
-    <div class="general-buttons">
+      <div class="sub-infos">
+        <span>{{data.album.release_year}} |</span>
+        <span class="album_duration">{{((albumDuration$ | async) ?? 0)}} minutes </span>
+      </div>
 
-      <fa-icon class="vinyl" [icon]="faPlay"/>
-      <fa-icon class="vinyl" [icon]="faCompactDisc" animation="spin"/>
+    </div>
+
+    <div class="general-buttons">
+      <div class="blip">
+        <div class="pause-wrapper" (mouseenter)="hovered=true" (mouseleave)="hovered=false" (click)="togglePLayPause()">
+          <fa-icon [icon]="playing ? faCompactDisc : fa_play_empty" [animation]="(playing && !hovered) ? 'spin' : undefined" class="pause-button" [class.visible]="!hovered"/>
+          <fa-icon [icon]="playing ? fa_pause_full : fa_play_full" class="pause-button" [class.visible]="hovered"/>
+        </div>
+      </div>
+
     </div>
 
   </div>
+
+  <div class="separator"></div>
+
 
   <div class="general-wrapper">
     <span>{{current_song?.title}}</span>
@@ -27,7 +39,7 @@
       <div class="track-row" (click)="playSelectedSong(song)">
         <div class="track-id">
           @if(current_song?.id === song.id){
-            <fa-icon class="vinyl" [icon]="faCompactDisc" animation="spin"/>
+            <fa-icon class="vinyl" [icon]="playing ? faCompactDisc : fa_pause" [animation]="playing ? 'spin' : undefined"/>
           } @else {
             <span>{{song.track_number}}</span>
           }

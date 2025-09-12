@@ -2,6 +2,15 @@
 @import "primeicons/primeicons.css";
 body{
   background-color: #09000a ;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 600;
 }
 /*//#1A001A*/
 
+/* Titres */
+h1, h2, h3 {
+  font-family: 'Poppins', sans-serif;
+  letter-spacing: 0.5px;
+  font-size: 2.5em;
+  font-weight: bold;
+}

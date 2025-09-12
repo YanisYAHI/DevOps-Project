@@ -9,6 +9,12 @@
   margin-bottom: 1rem;
 }
 
+.separator{
+  border-top: 1px solid #3b3b3b; /* bordure horizontale */
+  width: 90%;                 /* longueur contrôlée */
+  margin: 20px auto;           /* centrée */
+}
+
 .album-cover {
   height: 100%;         /* s'adapte à la hauteur de album-info */
   flex-shrink: 0;       /* empêche l'image de se réduire trop */
@@ -27,7 +33,16 @@
   /*flex: 1;                 !* prend tout l’espace restant *!*/
   align-self: flex-end;
   font-size: 1.5rem;
+}
 
+.sub-infos{
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.album_duration{
+  font-size: 1.1rem;
 }
 
 .album-text-info h1 {
@@ -36,15 +51,47 @@
 
 .general-buttons{
   display: flex;
-  background-color: gray;
   height: 50%;
   flex:1;
   align-self: flex-end;
-  gap: 1rem;
+  padding: 1rem;
+}
+
+.pause-wrapper{
+  position: relative;
+  display: flex;
+  margin-left: 10px;
+  margin-right: 15px;
+}
+
+.pause-button{
+  cursor: pointer;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  opacity: 0;
+  transform: scale(1);
+  transition: opacity 0.3s ease, transform 0.2s ease;
+}
+
+.pause-button.visible{
+  opacity: 1;
+}
+
+.icon-wrapper:hover .pause-button.visible {
+  transform: scale(1);
+}
+
+.blip{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
 }
 
 .general-buttons fa-icon{
-  font-size: 3rem;
+  font-size: 4rem;
 }
 
 .general-wrapper{

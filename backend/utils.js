@@ -3,7 +3,8 @@ import * as fs from 'fs';
 import {query} from './db.js'
 
 
-const ALBUM_PATH = './public/Freeze Corleone/LMF/'
+const ALBUM_PATH = './public/Black Sabbath/Paranoid (Remaster)/'
+const ARTIST_PATH = './public/Black Sabbath/'
 //const TRACKS_FILES = getFiles(ALBUM_PATH)
 
 
@@ -25,15 +26,20 @@ function getFiles(path) {
     return file_list;
 }
 
-export async function getAlbumInfo() {
+function getAlbums(path){
+    return fs.readdirSync(path, {withFileTypes: true})
+        .filter(entry => entry.isDirectory())
+        .map(entry => entry.name)
+}
+
+async function getAlbumInfo() {
     const metadata_sample = await getRawMetadata(ALBUM_PATH + TRACKS_FILES[0])
 
     return {
         title: metadata_sample.common.album,
         artist_id: metadata_sample.common.artist,
         release_year: metadata_sample.common.year,
-        album_path: ALBUM_PATH,
-        album_cover: ALBUM_PATH + "Cover.jpg"
+        cover_path: `/musics/${metadata_sample.common.artist}/${metadata_sample.common.album}/Cover.jpg`
     }
 }
 
@@ -42,61 +48,65 @@ function getTrackInfo(metadata, path) {
         title: metadata.common.title,
         duration: Math.round(metadata.format.duration),
         track_number: metadata.common.track.no,
-        genre: "Rap",
-        song_path: path,
+        genre: "Hard rock, Heavy metal",
+        song_path: (ALBUM_PATH+path).replace('./public/','/musics/'),
         album_title: metadata.common.album
     }
 }
 
+async function getArtist(){
+    const metadata = await getAlbumInfo()
+    return {artist_id: metadata.artist_id, album_count:getAlbums(ARTIST_PATH).length}
+}
+
+
+
+
 
 /** --------------- Database part --------------- **/
 
-export async function addAlbumInDb(db) {
-    const data = await getAlbumInfo();
+async function insertArtistDb(){
+    const artist_id = (await getArtist()).artist_id
+    const album_count = await getAlbums(ARTIST_PATH).length
 
     try {
-        await db.run(
-            'INSERT INTO albums (title,artist_id,release_year,album_path) VALUES (?,?,?,?)',
-            [data.title, data.artist_id, data.release_year, data.album_path]);
-
-        const rows = await db.all('SELECT * FROM albums');
-        console.log("SELECT albums succeeded:", rows)
+        return (await query('INSERT INTO artists(id,album_count) VALUES($1,$2) RETURNING *',[artist_id,album_count]))
     } catch (error) {
-        console.error("Album insert error:", error.message);
+        console.error("Insert artist db error:", error.message)
     }
 }
 
-export async function addTrackInDb(db, data, track_path) {
-    try {
-        await db.run('INSERT INTO songs (title,album_id,duration,track_number,genre,song_path) VALUES (?,(SELECT id FROM albums WHERE title=?),?,?,?,?)',
-            [
-                data.title,
-                data.album_title,
-                data.duration,
-                data.track_number,
-                data.genre,
-                track_path])
-    } catch (error) {
-        console.error("Track insert error:", error.message);
-    }
+async function insertAlbumDb(){
+    const album_info = await getAlbumInfo()
+    const title = album_info.title;
+    const artist_id = album_info.artist_id;
+    const release_year = album_info.release_year;
+    const cover_path = album_info.cover_path;
 
+    try {
+        return (await query('INSERT INTO albums(title,artist_id,release_year,cover_path) VALUES($1,$2,$3,$4) RETURNING *',[title,artist_id,release_year,cover_path]))
+    } catch (error) {
+        console.error("Insert album db error:", error.message)
+    }
 }
 
-export async function addMultipleTracksDb(db) {
-    try {
-        for (const file of TRACKS_FILES) {
-            const track_path = ALBUM_PATH.replace('./public', '/static') + file
-            const metadata = await getRawMetadata(track_path)
-            const data = getTrackInfo(metadata, track_path)
+async function insertTracksDb(){
+    try{
+        for (const file of TRACKS_FILES){
+            const rawMetadata = await getRawMetadata(ALBUM_PATH+file)
+            const track_info = getTrackInfo(rawMetadata, file)
+            const album_id = (await query('SELECT id FROM albums WHERE title=$1',[track_info.album_title])).rows[0].id
 
-            await addTrackInDb(db, data, track_path)
+            await query('INSERT INTO songs(title,album_id,duration,track_number,genre,song_path) VALUES($1,$2,$3,$4,$5,$6) RETURNING *',[track_info.title,album_id,track_info.duration,track_info.track_number,track_info.genre,track_info.song_path])
         }
-        const rows = await db.all('SELECT * FROM songs');
-        console.log("SELECT songs succeeded:", rows)
     } catch (error) {
-        console.error("Multiple tracks insert error:", error.message);
+        console.error("Insert tracks db error:", error.message)
     }
+
 }
+
+
+/** --------------- GET Database part --------------- **/
 
 
 export async function getAllAlbumsdB() {
@@ -110,7 +120,7 @@ export async function getAllAlbumsdB() {
 
 export async function getAlbumInfodB(album_id) {
     try {
-        const res = await query('SELECT * FROM albums WHERE id=$1',[album_id])
+        const res = await query('SELECT * FROM albums WHERE id=$1 ORDER BY id',[album_id])
         return res.rows[0]
     } catch (error) {
         console.error("Get album info error:", error.message);
@@ -119,7 +129,7 @@ export async function getAlbumInfodB(album_id) {
 
 export async function getArtistAlbums(artist_id) {
     try {
-        const res = await query('SELECT * FROM albums WHERE artist_id=$1',[artist_id])
+        const res = await query('SELECT * FROM albums WHERE artist_id=$1 ORDER BY id',[artist_id])
         return res.rows
     } catch (error) {
         console.error("Get artist albums error:", error.message);
@@ -138,7 +148,7 @@ export async function getTrackInfodB(track_id) {
 
 export async function getAllAlbumTracksdB(album_id) {
     try {
-        const songs = (await query('SELECT * FROM songs WHERE album_id=$1', [album_id])).rows
+        const songs = (await query('SELECT * FROM songs WHERE album_id=$1 ORDER BY id', [album_id])).rows
         if (songs === undefined || songs.length === 0) {
             throw new Error("Album not found");
         }
