@@ -21,6 +21,7 @@ export class AlbumsListComponent {
   albums$ = toObservable(this.albums).pipe(
     switchMap(albums => {
       if (albums && albums.length > 0) {
+        console.log("qsdqsd : ",albums)
         return of(albums); // utiliser ceux du parent
       } else {
         return this.http.get<Album[]>('api/all'); // fallback
