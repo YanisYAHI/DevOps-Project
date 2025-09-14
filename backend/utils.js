@@ -5,7 +5,7 @@ import {query} from './db.js'
 
 const ALBUM_PATH = './public/Ziak/Akimbo/'
 const ARTIST_PATH = './public/Ziak/'
-const TRACKS_FILES = getFiles(ALBUM_PATH)
+//const TRACKS_FILES = getFiles(ALBUM_PATH)
 
 
 async function getRawMetadata(path) {
