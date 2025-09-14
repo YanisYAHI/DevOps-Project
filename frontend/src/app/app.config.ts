@@ -34,42 +34,22 @@ export const appConfig: ApplicationConfig = {
                 950: '#ffffff'
               },
               surface: {
-                0: '{zinc.900}',
-                50: '{zinc.900}',
-                100: '{zinc.900}',
-                200: '{zinc.900}',
-                300: '{zinc.900}',
-                400: '{zinc.900}',
-                500: '{zinc.900}',
-                600: '{zinc.900}',
-                700: '{zinc.900}',
-                800: '{zinc.900}',
-                900: '{zinc.900}',
-                950: '{zinc.900}',
+                0:   '#3D3D42',
+                50:  '#3D3D42',
+                100: '#3D3D42',
+                200: '#3D3D42',
+                300: '#3D3D42',
+                400: '#3D3D42',
+                500: '#3D3D42',
+                600: '#3D3D42',
+                700: '#3D3D42',
+                800: '#3D3D42',
+                900: '#3D3D42',
+                950: '#3D3D42',
               },
             },
           },
         },
-        //   components: {
-        //     button: {
-        //       colorScheme: {
-        //         dark: {
-        //           root: {
-        //             ...Aura.components?.button,
-        //             primary: {
-        //               color: '#ffffff',
-        //             },
-        //           },
-        //         },
-        //       },
-        //     },
-        //     slider: {
-        //       colorScheme: {
-        //         ...Aura.components?.slider,
-        //       },
-        //     },
-        //   },
-        // },
       },
     }),
   ],

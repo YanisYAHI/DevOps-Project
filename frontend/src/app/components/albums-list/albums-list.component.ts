@@ -3,13 +3,12 @@ import { HomeElementComponent } from '../home-element/home-element.component';
 import { HttpClient } from '@angular/common/http';
 import { AsyncPipe } from '@angular/common';
 import { Album } from '../../models/album';
-import { PlayBarComponent } from '../play-bar/play-bar.component';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {of, switchMap} from 'rxjs';
 
 @Component({
   selector: 'app-albums-list',
-  imports: [HomeElementComponent, AsyncPipe, PlayBarComponent],
+  imports: [HomeElementComponent, AsyncPipe],
   templateUrl: './albums-list.component.html',
   styleUrl: './albums-list.component.css',
 })

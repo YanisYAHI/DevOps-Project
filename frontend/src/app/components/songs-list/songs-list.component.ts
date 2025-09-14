@@ -4,18 +4,17 @@ import { HttpClient } from '@angular/common/http';
 import { Song } from '../../models/song';
 import { AsyncPipe, DatePipe } from '@angular/common';
 import {catchError, map, Observable, of} from 'rxjs';
-import { PlayBarComponent } from '../play-bar/play-bar.component';
 import { PlayerService } from '../../services/Player/player.service';
 import { Album } from '../../models/album';
 import {faCirclePause, faCirclePlay, faCompactDisc, faPlay} from '@fortawesome/free-solid-svg-icons';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import {faPauseCircle, faPlayCircle} from '@fortawesome/free-regular-svg-icons';
+import {faPlayCircle} from '@fortawesome/free-regular-svg-icons';
 import { take } from 'rxjs/operators';
 
 
 @Component({
   selector: 'app-songs-list',
-  imports: [AsyncPipe, PlayBarComponent, DatePipe, FaIconComponent, RouterLink],
+  imports: [AsyncPipe, DatePipe, FaIconComponent, RouterLink],
   templateUrl: './songs-list.component.html',
   styleUrl: './songs-list.component.css',
 })

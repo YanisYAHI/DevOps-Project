@@ -1,5 +1,4 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { PlayBarComponent } from '../play-bar/play-bar.component';
 import { Artist } from '../../models/artist';
 import { ActivatedRoute, Router } from '@angular/router';
 import {catchError, Observable, of, tap} from 'rxjs';
@@ -10,7 +9,7 @@ import {AlbumsListComponent} from '../albums-list/albums-list.component';
 
 @Component({
   selector: 'app-artist-profile',
-  imports: [PlayBarComponent, AsyncPipe, AlbumsListComponent],
+  imports: [AsyncPipe, AlbumsListComponent],
   templateUrl: './artist-profile.component.html',
   styleUrl: './artist-profile.component.css',
 })

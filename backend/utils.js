@@ -3,9 +3,9 @@ import * as fs from 'fs';
 import {query} from './db.js'
 
 
-const ALBUM_PATH = './public/Black Sabbath/Paranoid (Remaster)/'
-const ARTIST_PATH = './public/Black Sabbath/'
-//const TRACKS_FILES = getFiles(ALBUM_PATH)
+const ALBUM_PATH = './public/Ziak/Akimbo/'
+const ARTIST_PATH = './public/Ziak/'
+const TRACKS_FILES = getFiles(ALBUM_PATH)
 
 
 async function getRawMetadata(path) {
@@ -48,7 +48,7 @@ function getTrackInfo(metadata, path) {
         title: metadata.common.title,
         duration: Math.round(metadata.format.duration),
         track_number: metadata.common.track.no,
-        genre: "Hard rock, Heavy metal",
+        genre: "RAP",
         song_path: (ALBUM_PATH+path).replace('./public/','/musics/'),
         album_title: metadata.common.album
     }
@@ -56,21 +56,19 @@ function getTrackInfo(metadata, path) {
 
 async function getArtist(){
     const metadata = await getAlbumInfo()
-    return {artist_id: metadata.artist_id, album_count:getAlbums(ARTIST_PATH).length}
+    return {artist_id: metadata.artist_id, album_count:getAlbums(ARTIST_PATH).length, artist_cover:(ARTIST_PATH+"Banner.jpg").replace('./public/','/musics/')}
 }
-
-
-
 
 
 /** --------------- Database part --------------- **/
 
 async function insertArtistDb(){
     const artist_id = (await getArtist()).artist_id
-    const album_count = await getAlbums(ARTIST_PATH).length
+    const album_count = (await getAlbums(ARTIST_PATH)).length
+    const artist_cover = (await getArtist()).artist_cover
 
     try {
-        return (await query('INSERT INTO artists(id,album_count) VALUES($1,$2) RETURNING *',[artist_id,album_count]))
+        return (await query('INSERT INTO artists(id,album_count,artist_cover) VALUES($1,$2,$3) RETURNING *',[artist_id,album_count,artist_cover]))
     } catch (error) {
         console.error("Insert artist db error:", error.message)
     }
@@ -106,6 +104,11 @@ async function insertTracksDb(){
 }
 
 
+async function main(){
+    await insertArtistDb();
+    await insertAlbumDb();
+    await insertTracksDb();
+}
 /** --------------- GET Database part --------------- **/
 
 

@@ -22,6 +22,12 @@
       <div class="waiting-list-block">
         <fa-icon [icon]="faBarsStaggered" [class.enabled]="show_waiting_list" (click)="toggleWaitingList()"/>
       </div>
+      <div class="volume-container">
+        <fa-icon [icon]="volume === 0 ? fa_volumemute : volume < 50 ? fa_volumelow :  fa_volumehigh"/>
+          <div class="volume-slider">
+            <p-slider [(ngModel)]="volume" [min]="0" [max]="100" (onChange)="setVolume($event)" styleClass="w-56" orientation="vertical"/>
+          </div>
+      </div>
     </div>
     @if(show_waiting_list){
       <app-waiting-list [songs]="getQueue()"></app-waiting-list>

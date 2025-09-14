@@ -26,7 +26,6 @@ export class PlayerService {
 
   constructor() {
     this.audioService.getEnded$().subscribe(() => {
-      console.log(this.is_repeat)
       if(this.is_repeat){
         this.playSong()
       }
@@ -78,7 +77,6 @@ export class PlayerService {
   }
 
   pauseSong() {
-    console.log(this.song_index)
     this.audioService.pause();
   }
 
@@ -106,15 +104,11 @@ export class PlayerService {
     else {
       this.replaySong()
     }
-    console.log(this.song_index)
   }
 
   shuffle() {
     this.song_index = 0
     let arr = [...this.queue].slice(1,this.queue.length);
-    console.log("base:",[...arr]);
-    //arr.splice(arr.indexOf(this.current_song!,1))
-    console.log("kaka:",[...arr]);
     let random_nb, tmp;
     let i = arr.length;
     while (--i > 0){
@@ -123,11 +117,8 @@ export class PlayerService {
       arr[random_nb] = arr[i]
       arr[i] = tmp
     }
-    console.log("pipi:",[...arr]);
     arr.unshift(this.current_song!)
-    console.log("pbobo:",[...arr]);
     this.queue = arr
-    console.log("--------------------------------------");
 
   }
 
@@ -150,4 +141,7 @@ export class PlayerService {
     return this.queue;
   }
 
+  setVolume(volume: number) {
+    this.audioService.setVolume(volume);
+  }
 }

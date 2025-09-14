@@ -1,15 +1,16 @@
-<div>
-  <h1>
-    {{(artist_info$ | async)?.artist_info?.id}}
-  </h1>
+<div class="artist-banner">
+  <img src="{{ (artist_info$ | async)?.artist_info?.artist_cover }}" class="banner-img" />
 
-</div>
+  <div class="overlay"></div>
 
-<div>
-  Number of albums :
-  <a>{{(artist_info$ | async)?.artist_info?.album_count}}</a>
+  <div class="artist-info">
+    <h1>
+      {{ (artist_info$ | async)?.artist_info?.id }}
+    </h1>
+    <p>
+      {{ (artist_info$ | async)?.artist_info?.album_count }} albums
+    </p>
+  </div>
 </div>
 
 <app-albums-list [albums]="(artist_info$ | async)?.albums"></app-albums-list>
-
-<app-play-bar></app-play-bar>

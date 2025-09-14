@@ -7,6 +7,9 @@ import {
   faCirclePause,
   faCirclePlay,
   faShuffle,
+  faVolumeHigh,
+  faVolumeMute,
+  faVolumeLow,
 } from '@fortawesome/free-solid-svg-icons';
 import { faForwardStep, faBackwardStep, faRepeat, faBarsStaggered} from '@fortawesome/free-solid-svg-icons';
 import { PlayerService } from '../../services/Player/player.service';
@@ -27,7 +30,6 @@ import { DatePipe } from '@angular/common';
   styleUrl: './play-bar.component.css',
 })
 
-/**COMPRENDRE CONSTRUCTEUR ET CONSTRUCTEUR DU SERVICE AUDIO **/
 export class PlayBarComponent {
   fa_pause_empty = faPauseCircle;
   fa_pause_full = faCirclePause;
@@ -40,6 +42,10 @@ export class PlayBarComponent {
   faRepeat = faRepeat;
   fa_shuffle = faShuffle;
 
+  fa_volumehigh = faVolumeHigh;
+  fa_volumemute = faVolumeMute;
+  fa_volumelow = faVolumeLow;
+
   faBarsStaggered = faBarsStaggered;
 
   hovered = false;
@@ -51,6 +57,8 @@ export class PlayBarComponent {
   playerService = inject(PlayerService);
   current_time = 0;
   duration = 0;
+
+  volume = 100;
 
   constructor() {
     this.playerService.current_time$.subscribe(
@@ -111,5 +119,10 @@ export class PlayBarComponent {
 
   toggleWaitingList() {
     this.show_waiting_list = !this.show_waiting_list;
+  }
+
+  setVolume(event: any) {
+    this.volume = event.value;
+    this.playerService.setVolume(this.volume);
   }
 }

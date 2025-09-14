@@ -1,1 +1,8 @@
-<router-outlet/>
+<div class="page-content" [class.with-playbar]="!is_error_page">
+  <router-outlet/>
+</div>
+
+
+@if (!is_error_page){
+  <app-play-bar></app-play-bar>
+}

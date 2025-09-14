@@ -1,0 +1,45 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+.artist-banner {
+  position: relative;
+  width: 100%;
+  height: 40vh; /* hauteur de la bannière */
+  overflow: hidden;
+}
+
+.banner-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* image bien cadrée sans déformation */
+  object-position: center;
+}
+
+.overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 50%; /* dégradé uniquement sur la partie basse */
+  background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+}
+
+.artist-info {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  color: white;
+  z-index: 2;
+}
+
+.artist-info h1 {
+  font-size: 2.5rem;
+  margin: 0;
+}
+
+.artist-info p {
+  font-size: 1.1rem;
+  margin: 5px 0 0 0;
+}

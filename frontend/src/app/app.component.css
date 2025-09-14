@@ -1,0 +1,8 @@
+.page-content {
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.page-content.with-playbar {
+  padding-bottom: 100px; /* adapte à la hauteur réelle de ta barre */
+}

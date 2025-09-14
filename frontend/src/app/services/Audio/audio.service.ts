@@ -63,7 +63,7 @@ export class AudioService {
   }
 
   setVolume(volume: number){
-    this.audio.volume = volume;
+    this.audio.volume = volume / 100;
   }
 
   replay(){
