@@ -3,9 +3,9 @@ import * as fs from 'fs';
 import {query} from './db.js'
 
 
-const ALBUM_PATH = './public/Ziak/Akimbo/'
-const ARTIST_PATH = './public/Ziak/'
-//const TRACKS_FILES = getFiles(ALBUM_PATH)
+const ALBUM_PATH = './public/The Witcher 3/The Witcher 3 - Wild Hunt Extended Soundtrack (2015)/'
+const ARTIST_PATH = './public/The Witcher 3/'
+const TRACKS_FILES = getFiles(ALBUM_PATH)
 
 
 async function getRawMetadata(path) {
@@ -48,7 +48,7 @@ function getTrackInfo(metadata, path) {
         title: metadata.common.title,
         duration: Math.round(metadata.format.duration),
         track_number: metadata.common.track.no,
-        genre: "RAP",
+        genre: "Folk",
         song_path: (ALBUM_PATH+path).replace('./public/','/musics/'),
         album_title: metadata.common.album
     }
@@ -59,6 +59,7 @@ async function getArtist(){
     return {artist_id: metadata.artist_id, album_count:getAlbums(ARTIST_PATH).length, artist_cover:(ARTIST_PATH+"Banner.jpg").replace('./public/','/musics/')}
 }
 
+console.log(getTrackInfo(await getRawMetadata(ALBUM_PATH+TRACKS_FILES[0]),TRACKS_FILES[0]))
 
 /** --------------- Database part --------------- **/
 

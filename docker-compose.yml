@@ -13,7 +13,7 @@ services:
   backend:
     build: ./backend
     container_name: express-backend
-    restart: on-failure:5
+    restart: always
     depends_on:
       - db
     environment:
@@ -25,13 +25,11 @@ services:
       MUSIC_PATH: /musics
     volumes:
       - /srv/mini-spotify-data/musics:/musics
-    ports:
-      - "3000:3000"
 
   frontend:
     build: ./frontend
     container_name: angular-frontend
-    restart: on-failure:5
+    restart: always
     depends_on:
       - backend
     ports:
