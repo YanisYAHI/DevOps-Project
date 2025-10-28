@@ -5,7 +5,7 @@ on:
     branches: [main]
 
 jobs:
-  backend-build:
+  frontend-build:
     runs-on: ubuntu-24.04
 
     steps:
@@ -23,6 +23,21 @@ jobs:
           context: ./frontend/
           push: true
           tags: yanisyahi/potify-frontend
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+
+  backend-build:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Login, build and push docker image
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and push backend
         uses: docker/build-push-action@v6
