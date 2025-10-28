@@ -5,7 +5,7 @@ import {query} from './db.js'
 
 const ALBUM_PATH = './public/The Witcher 3/The Witcher 3 - Wild Hunt Extended Soundtrack (2015)/'
 const ARTIST_PATH = './public/The Witcher 3/'
-const TRACKS_FILES = getFiles(ALBUM_PATH)
+//const TRACKS_FILES = getFiles(ALBUM_PATH)
 
 
 async function getRawMetadata(path) {
