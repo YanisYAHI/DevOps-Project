@@ -30,3 +30,5 @@ jobs:
           context: ./backend/
           push: true
           tags: yanisyahi/potify-backend
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
