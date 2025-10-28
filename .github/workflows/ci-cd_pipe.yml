@@ -14,13 +14,13 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Login, build and push docker image
+      - name: Login
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and push frontend
+      - name: Build and push frontend docker image
         uses: docker/build-push-action@v6
         with:
           context: ./frontend/
@@ -39,13 +39,13 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Login, build and push docker image
+      - name: Login
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and push backend
+      - name: Build and push backend docker image
         uses: docker/build-push-action@v6
         with:
           context: ./backend/
